@@ -8,7 +8,7 @@
 ----
 
 ## Theory
-&ensp;&ensp;&ensp; Cryptography is closely related to the disciplines of cryptology and cryptanalysis. It includes techniques such as microdots, merging words with images and other ways to hide information in storage or transit.
+&ensp;&ensp;&ensp;Cryptography is closely related to the disciplines of cryptology and cryptanalysis. It includes techniques such as microdots, merging words with images and other ways to hide information in storage or transit.
 
 ## Implementations
 
