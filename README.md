@@ -12,4 +12,4 @@
 
 ## Implementations
 
-[Laboratory Work #1](https://github.com/eugencic)
+[Laboratory Work #1](https://github.com/eugencic/utm-cs-labs/tree/main/Lab1)
