@@ -1,13 +1,25 @@
 # Caesar Cipher
 
 ## Theory
-&ensp;&ensp;&ensp;In cryptography, a Caesar Cipher is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a left shift of 3, D would be replaced by A, E would become B, and so on. The method is named after Julius Caesar, who used it in his private correspondence.
+&ensp;&ensp;&ensp;It is a type of mono-alphabetic permutation cipher where the letters of the alphabet are arranged based on a given key.
 
 ### Initial Step 
+&ensp;&ensp;&ensp;Create a new alphabet, by adding the unique characters from the message and then all the remaining alphabet letters
+```
+def alphabet_permutation(secret):
+    # Alphabet
+    alphabet = string.ascii_uppercase
+    # Add the unique characters from the key
+    new_alphabet = "".join(sorted(set(secret), key = secret.index))
+    # Add the remaining letters from the alphabet
+    for letter in alphabet:
+        if letter not in new_alphabet:
+            new_alphabet += letter
+```
+
+### Aplhabet Shift
 &ensp;&ensp;&ensp;Create the shifted alphabet
 ```
-# Alphabet
-alphabet = string.ascii_uppercase
 # Shifted alphabet
 # Start at the position where we shift, taking the rest of the list, and append everything before shift 
 shifted_alphabet = alphabet[key:] + alphabet[:key]
@@ -33,8 +45,10 @@ key %= 26
 ### Output Example
 ```
 Enter the text you want to encrypt (uppercase): MEINYOU
-Enter the key (how much you want to shift): 5
+Enter the secret message: LOVE
+Enter the shift: 5
 The original message: MEINYOU
-The encrypted message: RJNSDTZ
+The new alphabet: LOVEABCDFGHIJKMNPQRSTUWXYZ
+The encrypted message: SFPTECL
 The decrypted message: MEINYOU
 ```

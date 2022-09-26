@@ -31,7 +31,7 @@ def decrypt(message, key):
     decrypted_message = message.translate(table)
     return decrypted_message
 
-def main():
+if __name__ == "__main__": 
     # Convert to uppercase to coincide with the alphabet
     message = input('Enter the text you want to encrypt (uppercase): ').upper()
     key = int(input('Enter the key (how much you want to shift): '))
@@ -45,5 +45,3 @@ def main():
     decrypted_message = decrypt(encrypted_message, key)
     # Print the decrypted message
     print(f'The decrypted message: {decrypted_message}')
-    
-main()
