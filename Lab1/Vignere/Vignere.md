@@ -41,7 +41,7 @@ def encrypt(message, key):
 ```
 
 ### Decryption
-&ensp;&ensp;&ensp;Same method as encryption, but we take the shift back
+&ensp;&ensp;&ensp;Same method as encryption, but we take the shift back.
 ```
 def decrypt(encrypted_message, key): 
   alphabet = string.ascii_uppercase
