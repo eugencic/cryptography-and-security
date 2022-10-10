@@ -16,7 +16,7 @@ def create_matrix(key):
             row += 1
         else:
             col += 1
-    #Add the rest of the alphabet to the matrix
+    # Add the rest of the alphabet to the matrix
     # A=65 ... Z=90
     for letter in range(65, 91):
         # I/J are in the same position
@@ -32,7 +32,7 @@ def create_matrix(key):
             index += 1
     return matrix
 
-#Add fillers if the same letter is in a pair
+# Add fillers if the same letter is in a pair
 def separate_same_letters(message):
     index = 0
     while (index < len(message)):
