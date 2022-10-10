@@ -100,3 +100,7 @@ Enter the secret message: secret
 Encrypted message:  KMNWRWPN
 Decrypted message:  ILOVEYOU
 ```
+
+
+## Implementation
+[Playfair Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Code/Playfair.py)

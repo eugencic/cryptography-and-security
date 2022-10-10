@@ -54,5 +54,5 @@
 
    
 ## Ciphers
-1. Stream Cipher
-2. Block Cipher
+[Stream Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Descriptions/Stream.md) 
+[Block Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Descriptions/Block.md) 

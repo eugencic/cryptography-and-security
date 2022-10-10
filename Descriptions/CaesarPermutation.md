@@ -52,3 +52,7 @@ The new alphabet: LOVEABCDFGHIJKMNPQRSTUWXYZ
 The encrypted message: SFPTECL
 The decrypted message: MEINYOU
 ```
+
+
+## Implementation
+[Caesar Permutation Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Code/CaesarPermutation.py)

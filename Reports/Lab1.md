@@ -40,7 +40,7 @@ where:
 
 
 ## Ciphers
-1. Caesar Cipher 
-2. Caesar Permutation Cipher
-3. Vignere Cipher
-4. Playfair Cipher
+[Caesar Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Descriptions/Caesar.md) 
+[Caesar Permutation Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Descriptions/CaesarPermutation.md) 
+[Vignere Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Descriptions/Vignere.md) 
+[Playfair Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Descriptions/Playfair.md) 

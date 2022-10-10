@@ -9,26 +9,6 @@ RC4 creates a pseudo-random bit stream (a keystream). These, like any other stre
 ### Key Scheduling Algorithm
 &ensp;&ensp;&ensp;The key scheduling algorithm is known to initialize the permutation using a variable-length key, typically between 40 and 256 bits (KSA).
 ```
-def streamGeneration(S, text):
-    # Generate key stream from the state vector after one more round of permutation
-    generated_stream = []
-    i, j = 0, 0
-    for _ in range(len(text)):
-        i = (i + 1) % 256
-        j = (j + S[i]) % 256
-        # Permutation of S
-        S[i], S[j] = S[j], S[i]
-        added = (S[i] + S[j]) % 256
-        stream = S[added]
-        generated_stream.append(stream) 
-    return generated_stream
-               
-```
-
-
-### Pseudo Random Generating Algorithm
-&ensp;&ensp;&ensp;The key scheduling algorithm is known to initialize the permutation using a variable-length key, typically between 40 and 256 bits (KSA).
-```
 def keyScheduling(key):
     # The state vector is from 0 to 255
     S = [i for i in range(0, 256)]
@@ -42,6 +22,26 @@ def keyScheduling(key):
         S[i] = S[j]
         S[j] = tmp
     return S
+               
+```
+
+
+### Pseudo Random Generating Algorithm
+&ensp;&ensp;&ensp;The key scheduling algorithm is known to initialize the permutation using a variable-length key, typically between 40 and 256 bits (KSA).
+```
+def streamGeneration(S, text):
+    # Generate key stream from the state vector after one more round of permutation
+    generated_stream = []
+    i, j = 0, 0
+    for _ in range(len(text)):
+        i = (i + 1) % 256
+        j = (j + S[i]) % 256
+        # Permutation of S
+        S[i], S[j] = S[j], S[i]
+        added = (S[i] + S[j]) % 256
+        stream = S[added]
+        generated_stream.append(stream) 
+    return generated_stream
 ```
 
 
@@ -100,3 +100,7 @@ Enter your encrypted text: 10101000011000111001010101011001110011001110110110000
 Enter your secret key: secret
 Result: EUGENIU1234
 ```
+
+
+## Implementation
+[Stream Cipher](https://github.com/eugencic/utm-cs-labs/blob/main/Code/Stream.py)
