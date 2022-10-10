@@ -7,10 +7,7 @@
 
 ----
 
-## Theory
-&ensp;&ensp;&ensp;Cryptography is closely related to the disciplines of cryptology and cryptanalysis. It includes techniques such as microdots, merging words with images and other ways to hide information in storage or transit.
-
 ## Laboratory Works
 
-[Laboratory Work #1](https://github.com/eugencic/utm-cs-labs/blob/main/Reports/Lab1.md)
-[Laboratory Work #2](https://github.com/eugencic/utm-cs-labs/blob/main/Reports/Lab2.md)
+1. [Laboratory Work #1](https://github.com/eugencic/utm-cs-labs/blob/main/Reports/Lab1.md)
+2. [Laboratory Work #2](https://github.com/eugencic/utm-cs-labs/blob/main/Reports/Lab2.md)
