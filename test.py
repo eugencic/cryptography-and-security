@@ -5,6 +5,7 @@ from Code.Playfair import *
 from Code.Stream import *
 from Code.Block import *
 from Code.Asymmetric import *
+from Code.Hashing import *
 
 if __name__ == '__main__':
     print("Caesar Cipher")
@@ -70,3 +71,19 @@ if __name__ == '__main__':
     print('Encrypted message: ' + str(cipher))
     plain = asymmetricCipher.decrypt(private_key, cipher)
     print('Decrypted message: ' + plain)
+    
+    print("SHA-2 Hashing Algorithm")
+    hashing = Hashing()
+    message = str(input('Enter your message: '))
+    result = hashing.SHA_256(message)
+    print(result)
+    asymmetricCipher = Asymmetric()
+    private_key, public_key = asymmetricCipher.generate_rsa_keys()
+    cipher = asymmetricCipher.encrypt(public_key, result)
+    print('Encrypted message: ' + str(cipher))
+    plain = asymmetricCipher.decrypt(private_key, cipher)
+    print('Decrypted message: ' + plain)
+    if (plain == result):
+        print("Digital signature check is successfull!")
+    else:
+        print("Error!")
