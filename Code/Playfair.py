@@ -14,7 +14,7 @@ class Playfair:
                 letters_added.append(letter)
             else:
                 continue
-            if (col == 4):
+            if col == 4:
                 col = 0
                 row += 1
             else:
@@ -61,7 +61,7 @@ class Playfair:
                 continue
         
     # Implementation of the playfair cipher
-    # If encrypt = True, the method will encrypt the message. Otherwise the method will decrypt it
+    # If encrypt = True, the method will encrypt the message. Otherwise, the method will decrypt it
     def playfair(self, message, key, encrypt = True):
         inc = 1
         if encrypt == False:

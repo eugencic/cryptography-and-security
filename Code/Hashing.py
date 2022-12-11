@@ -1,6 +1,7 @@
 # SHA-2 Hashing Algorithm
 
-from Asymmetric import *
+from Code.Asymmetric import *
+
 
 class Hashing:
     # Text to binary
@@ -37,11 +38,11 @@ class Hashing:
         # Add one to the end of the message string
         p = binary_message + '1'
         # Extend the length of p until len(p) % 512 = 448
-        while len(p)%512 != 448:
+        while len(p) % 512 != 448:
             p += '0'
         # The final padding step, add the length of the starting message
         p += bin(message_length)[2:].zfill(64)
-        block_no = int(len(p)/512)
+        block_no = int(len(p) / 512)
         # Split the padded message in blocks
         blocks = []
         for i in range(block_no):
@@ -68,12 +69,14 @@ class Hashing:
 
     # e0 = ROR(x,2) ^ ROR(x,13) ^ ROR(x,22)
     def Eta_0(self, x):
-        Eta_0 = int(self.ROR(bin(x)[2:], 2, 32), 2) ^ int(self.ROR(bin(x)[2:], 13, 32), 2) ^ int(self.ROR(bin(x)[2:], 22, 32), 2)
+        Eta_0 = int(self.ROR(bin(x)[2:], 2, 32), 2) ^ int(self.ROR(bin(x)[2:], 13, 32), 2) ^ int(
+            self.ROR(bin(x)[2:], 22, 32), 2)
         return Eta_0
 
     # e1 = ROR(x,6) ^ ROR(x,11) ^ ROR(x,25)
     def Eta_1(self, x):
-        Eta_1 = int(self.ROR(bin(x)[2:], 6, 32), 2) ^ int(self.ROR(bin(x)[2:], 11, 32), 2) ^ int(self.ROR(bin(x)[2:], 25, 32), 2)
+        Eta_1 = int(self.ROR(bin(x)[2:], 6, 32), 2) ^ int(self.ROR(bin(x)[2:], 11, 32), 2) ^ int(
+            self.ROR(bin(x)[2:], 25, 32), 2)
         return Eta_1
 
     # Chr = (x & y) ^ (x & z)
@@ -91,14 +94,14 @@ class Hashing:
     def gen_keys(self, block):
         keys = []
         for i in range(16):
-            keys.append(int(block[(i * 32) : ((i * 32) + 32)], 2))
+            keys.append(int(block[(i * 32): ((i * 32) + 32)], 2))
         # Make 48 new keys using the formula key[i] = key[i-16] ^ s0(key[i-15]) ^ key[i-7] ^ s1(key[i-2])
-        for l in range(16,64):
-            S0 = self.sigma_0(keys[l-15])
-            S1 = self.sigma_1(keys[l-2])
-            w = (keys[l-16] + S0) % pow(2,32) 
-            w = (w + keys[l-7]) % pow(2,32) 
-            w = (w + S1) % pow(2,32) 
+        for l in range(16, 64):
+            S0 = self.sigma_0(keys[l - 15])
+            S1 = self.sigma_1(keys[l - 2])
+            w = (keys[l - 16] + S0) % pow(2, 32)
+            w = (w + keys[l - 7]) % pow(2, 32)
+            w = (w + S1) % pow(2, 32)
             keys.append(w)
         return keys
 
@@ -115,13 +118,13 @@ class Hashing:
 
         # Initialise the round constants
         k = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2]
+             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+             0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+             0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+             0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+             0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2]
 
         # Convert the message into 512 bit blocks by padding it out
         blocks = self.padding_function(message)
@@ -179,6 +182,7 @@ class Hashing:
         result = h0 + h1 + h2 + h3 + h4 + h5 + h6 + h7
         result = hex(int(result, 2))
         return result
+
 
 if __name__ == "__main__":
     hashing = Hashing()

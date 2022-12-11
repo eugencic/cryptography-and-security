@@ -15,7 +15,7 @@ class Stream:
             S[i] = S[j]
             S[j] = tmp
         return S
-    
+
     # Pseudo random generation algorithm (Stream generation)
     def streamGeneration(self, S, text):
         # Generate key stream from the state vector after one more round of permutation
@@ -28,9 +28,9 @@ class Stream:
             S[i], S[j] = S[j], S[i]
             added = (S[i] + S[j]) % 256
             stream = S[added]
-            generated_stream.append(stream) 
+            generated_stream.append(stream)
         return generated_stream
-               
+
     def encrypt(self, text, key):
         # Return the list of characters of the text and the key
         text = [ord(chr) for chr in text]
@@ -58,11 +58,12 @@ class Stream:
         plaintext = ''.join(chr(i ^ j) for i, j in zip(encrypted_text, key_stream))
         return plaintext
 
+
 if __name__ == '__main__':
     streamCipher = Stream()
     message = (input('Enter the text you want to encrypt: ').upper()).replace(" ", "")
     key = (input('Enter the secret message: ').upper()).replace(" ", "")
     encrypted_message = streamCipher.encrypt(message, key)
-    print("Encrypted message: ", encrypted_message) 
+    print("Encrypted message: ", encrypted_message)
     decrypted_message = streamCipher.decrypt(encrypted_message, key)
     print("Decrypted message: ", decrypted_message)

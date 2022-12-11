@@ -2,6 +2,7 @@
 
 import string
 
+
 class Caesar:
     # Function to encrypt the message
     def encrypt(self, message, key):
@@ -12,7 +13,8 @@ class Caesar:
         # Shifted alphabet
         # Start at the position where we shift, taking the rest of the list, and append everything before shift 
         shifted_alphabet = alphabet[key:] + alphabet[:key]
-        # Translation table where each character in the alphabet will be mapped to the character of the same position in the shifted alphabet 
+        # Translation table where each character in the alphabet will be mapped to the character of the same position
+        # in the shifted alphabet
         table = str.maketrans(alphabet, shifted_alphabet)
         # Replace each character in the string using the given translation table
         encrypted_message = message.translate(table)
@@ -28,11 +30,13 @@ class Caesar:
         # Shifted alphabet
         # Start at the position where we shift, taking the rest of the list, and append everything before shift 
         shifted_alphabet = alphabet[key:] + alphabet[:key]
-        # Translation table where each character in the alphabet will be mapped to the character of the same position in the shifted alphabet 
+        # Translation table where each character in the alphabet will be mapped to the character of the same position
+        # in the shifted alphabet
         table = str.maketrans(alphabet, shifted_alphabet)
         # Replace each character in the string using the given translation table
         decrypted_message = message.translate(table)
         return decrypted_message
+
 
 if __name__ == "__main__":
     caesarCipher = Caesar()

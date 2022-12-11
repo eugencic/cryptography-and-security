@@ -1,12 +1,13 @@
 # RSA Asymmetric Cipher
 
-import random 
+import random
 from math import floor
 from math import sqrt
 
 # Generate random numbers from 1000 to 100000
 RANDOM_START = 1e3
 RANDOM_END = 1e5
+
 
 # Class of the Asymmetric Cipher
 class Asymmetric:
@@ -23,7 +24,8 @@ class Asymmetric:
                 return False
         return True
 
-    # Euclid's greatest common divisor algorithm. This is how we can verify wether (e, φ) = 1 are coprime with the gcd(e, φ) = 1 condition
+    # Euclid's greatest common divisor algorithm. This is how we can verify whether (e, φ) = 1 are coprime with the
+    # gcd(e, φ) = 1 condition
     def gcd(self, a, b):
         while b != 0:
             a, b = b, a % b
@@ -44,10 +46,10 @@ class Asymmetric:
         return div, x, y
 
     # Function to generate a large prime number
-    def generate_large_prime(self, start = RANDOM_START, end = RANDOM_END):
+    def generate_large_prime(self, start=RANDOM_START, end=RANDOM_END):
         # Generate a random number [RANDOM_START, RANDOM_END]
         num = random.randint(start, end)
-        # And check wether it is prime or not
+        # And check whether it is prime or not
         while not self.is_prime(num):
             num = random.randint(start, end)
         # We know the number is prime
@@ -57,12 +59,13 @@ class Asymmetric:
         # Generate the first huge random prime numbers
         p = self.generate_large_prime()
         q = self.generate_large_prime()
-        # This is the trapdoor funciton. Multiplying is fast but getting p and q from n is an expoentially slow operation
+        # This is the trapdoor funciton. Multiplying is fast but getting p and q from n is an expoentially slow
+        # operation
         n = p * q
         # Euler's tottient phi function
-        phi = (p-1) * (q-1)
+        phi = (p - 1) * (q - 1)
         e = random.randrange(1, phi)
-         # We must make sure gcd(e, phi) = 1, so e and phi are coprimes, otherwise we cannot find d
+        # We must make sure gcd(e, phi) = 1, so e and phi are coprimes, otherwise we cannot find d
         while self.gcd(e, phi) != 1:
             e = random.randrange(1, phi)
         # d is the modular inverse of e
@@ -74,7 +77,8 @@ class Asymmetric:
     def encrypt(self, public_key, plain_text):
         # e and n are needed for encryption
         e, n = public_key
-        # We use ASCII  representation for the characters and the transformation of every character is stored in an array
+        # We use ASCII  representation for the characters and the transformation of every character is stored in an
+        # array
         cipher_text = []
         # Consider all the letters one by one and use modular exponentiation
         for char in plain_text:
@@ -90,6 +94,7 @@ class Asymmetric:
             a = pow(num, d, n)
             plain_text = plain_text + str(chr(a))
         return plain_text
+
 
 if __name__ == '__main__':
     asymmetricCipher = Asymmetric()

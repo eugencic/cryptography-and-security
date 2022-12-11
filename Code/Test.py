@@ -83,7 +83,7 @@ if __name__ == '__main__':
     print('Encrypted message: ' + str(cipher))
     plain = asymmetricCipher.decrypt(private_key, cipher)
     print('Decrypted message: ' + plain)
-    if (plain == result):
+    if plain == result:
         print("Digital signature check is successfull!")
     else:
         print("Error!")
