@@ -94,7 +94,7 @@ def login():
             return "Incorrect password."
         if totp.now() != otp:
             return "Incorrect OTP code."
-        alphabet = string.ascii_letters + string.punctuation
+        alphabet = string.ascii_letters + string.digits
         if email not in tokens:
             token = ''.join(secrets.choice(alphabet) for i in range(8))
             tokens.update({email: token})
