@@ -13,30 +13,39 @@ Authorization, not to be confused with Authentication, occurs after a system has
 For example, after a file server authenticates a user, it can check which files or directories that can be read, written, or deleted. This is where authorization comes into play.
 
 ## Implementation
-I have made a web service where you can create an account, log in using MFA, and use the provided services by sending requests to the server.
+I have created a web service where you can register, log in using 2FA, and use the encryption/decryption services by sending requests to endpoints.
 
 The server runs on `http://127.0.0.1:5000`
 
 ### TOTP Authentication (2FA)
 
-For authentication, I have used TOTP.
+For authentication, TOTP is used.
 
 One-time password (OTP) systems provide a mechanism for logging on to a network or service using a unique password that can only be used once, as the name suggests.
 
-In my case, when registering, the user provides an email and a password, and a link with the QR code is sent back.
+TOTP stands for Time-based One-Time Passwords and is a common form of two factor authentication (2FA). Unique numeric passwords are generated with a standardized algorithm that uses the current time as an input. The time-based passwords are available offline and provide user friendly, increased account security when used as a second factor.
 
-![alt text](https://github.com/eugencic/utm-cs-labs/blob/main/Screenshots/1.png)
+When registering, the user has to provide an email and a password, then a link with the QR code will be sent back. It has to be scanned using Google Authenticator.
 
-The link provides a QR code which has to be scanned using Google Authenticator.
+#### /register
 
-![alt text](https://github.com/eugencic/utm-cs-labs/blob/main/Screenshots/2.png)
+Request
 
-After the code is scanned, an OTP will be generated in the Google Authenticator app, and it will be used for logging in.
+```json
+    {"email": "user1@gmail.com", "password": "11111111"}
+```
 
-![alt text](https://github.com/eugencic/utm-cs-labs/blob/main/Screenshots/3.jpg)
+Response
+
+```
+Access the link to get the Qr Code. Scan it using Google Authenticator:
+https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=otpauth://totp/Laboratory%20Work%20Nr.5:user1%40gmail.com?secret=MEEQ2R6V4S7HL5PDEO2SGWUTDCWZ4DBZ&issuer=Laboratory%20Work%20Nr.5
+```
+
+An OTP will be generated in the Google Authenticator app, and it will be used for logging in.
 
 #### Code snippets (register endpoint)
-```
+```python
 @app.route('/register', methods=['POST'])
 def register():
     try:
@@ -58,23 +67,27 @@ def register():
     except Exception as e:
         print(str(e))
         return "Error occured! Please, check if you introduced the correct data, or ensure if you haven't registered " \
-               "with this email already. 
+               "with this email already.
 ```
 
-Using `pyotp` library, a secret string is assigned to the user. After that, we use `TOTP` and create a specific URL for the QR code.
+With `pyotp` library, a secret string is assigned to the user. After that, `TOTP` is used and create a specific URL for the QR code.
 
-```secret_string = pyotp.random_base32()```
+```python
+secret_string = pyotp.random_base32()
+```
 
-```totp = pyotp.TOTP(secret_string)```
+```python
+totp = pyotp.TOTP(secret_string)
+```
 
-```qr_uri = "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=" + totp_uri```
+```python
+qr_uri = "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=" + totp_uri
+```
 
-When logging in, the user provides the email, the password, and the otp generated in Google Authenticator. The server checks if the data is correct, and sends a login success message and a token that has to be used when sending requests for using the services.
-
-![alt text](https://github.com/eugencic/utm-cs-labs/blob/main/Screenshots/4.png)
+When logging in, the user provides email, password, and the otp generated in Google Authenticator. The server checks if the data is correct, and sends a success message with a token that has to be used when sending requests to service endpoints.
 
 #### Code snippets (login endpoint)
-```
+```python
 @app.route('/login', methods=['POST'])
 def login():
     try:
@@ -108,13 +121,11 @@ def login():
         return "Something went wrong! Check if you introduced the correct data." 
 ```
 
-The server checks if the email, password and otp are correct, then logs the user in, by adding in an in-memory database, in this case a dictionary, the email and a random token, that will be used when sending requests. This will simulate a log in session. If the server goes down, the data from the dictionary will be deleted, by that the login session will be closed and the user will have to log in again.
+The server checks if the email, password and otp are correct, then logs the user in, by adding in a in-memory database, in this case a dictionary, the email and a random token, which will be used when sending requests.
 
-After that, the user can use the services. In this case, these are the ciphers implemented in previous laboratory works.
+#### Code snippets (caesar cipher endpoint)
 
-#### Code snippets (caesar cipher service endpoint)
-
-```
+```python
 @app.route('/caesar', methods=['POST'])
 def caesar():
     try:
@@ -142,59 +153,86 @@ def caesar():
         return "Error occurred!"
 ```
 
-The server checks if the login token is correct, then returns the result.
-
-![alt text](https://github.com/eugencic/utm-cs-labs/blob/main/Screenshots/5.png)
-
 #### Other endpoints:
 
-`/caesarpermutation`
+#### /caesarpermutation
 
-```{"token": "Qr[*?Bdi", "message": "university", "key": "utm", "shift": "5"}```
+```python
+{"token": "Qr[*?Bdi", "message": "university", "key": "utm", "shift": "5"}
+```
 
-`/vignere`
+#### /vignere
 
-```{"token": "Qr[*?Bdi", "message": "university", "key": "utm"}```
+#### /playfair
 
-`/playfair`
-
-```{"token": "Qr[*?Bdi", "message": "university", "key": "utm"}```
+```python
+{"token": "Qr[*?Bdi", "message": "university", "key": "utm"}
+```
 
 ### Authorization (RBAC)
 
-For some services you don't have enough rights by default. It is because a default role user is given when registering. To use some services you need the admin role.
+By default, there can be not enough rights for some services, because a role `user` is given when registering. In this case the `admin` role is required.
 
-`/stream`
+#### /stream
 
-```{"token": "Qr[*?Bdi", "message": "university", "key": "utm"}```
+Request
 
-```You don't have enough access rights.```
+```python
+{"token": "Qr[*?Bdi", "message": "university", "key": "utm"}
+```
 
-To get the admin role you need to create an admin account. It can be done by accessing the `/admin` endpoint and registering using the `4#17QZksEGi2` password.
+Response
 
-![alt text](https://github.com/eugencic/utm-cs-labs/blob/main/Screenshots/4.png)
+```
+You don't have enough access rights.
+```
 
-The role is assigned to the user when creating the account. It can be either user or admin.
+To get the admin role, an admin account has to be created. It can be done by accessing `/admin` endpoint and registering using `4#17QZksEGi2` password.
 
-```{"token": "#LRSxEJL", "message": "university", "key": "utm"}```
+#### /admin
 
-```The original message: UNIVERSITY, The encrypted message: 11000101010000011100010100110100010011111001010000111000111001011011011111011010, The decrypted message: UNIVERSITY```
+Request
 
-#### Other endpoints that need the admin role:
+```json
+    {"email": "admin@gmail.com", "password": "11111111", "secret": "4#17QZksEGi2"}
+```
 
-`/asymmetric`
+Response
 
-```{"token": "#LRSxEJL", "message": "university"}```
+```
+Access the link to get the Qr Code. Scan it using Google Authenticator:
+https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=otpauth://totp/Laboratory%20Work%20Nr.5:admin%40gmail.com?secret=J7UWQBYLGII3A4A53VGSZN5QWAOUPKNR&issuer=Laboratory%20Work%20Nr.5
+```
 
-`/hashing`
+#### /stream
 
-```{"token": "#LRSxEJL", "message": "university"}```
+Request
+
+```python
+{"token": "#LRSxEJL", "message": "university", "key": "utm"}
+```
+
+Response
+
+```
+The original message: UNIVERSITY, The encrypted message: 11000101010000011100010100110100010011111001010000111000111001011011011111011010, The decrypted message: UNIVERSITY
+```
+
+#### Other endpoints that need admin role
+
+#### /asymmetric
+
+### /hashing
+
+```
+{"token": "#LRSxEJL", "message": "university"}
+```
 
 ### Database
 
-Create initial database resources using sqlite.
+Creates initial database resources using `sqlite`, the `Users` table.
 
-```
+```python
 def create_initial_db_resources():
     cur.execute(
         "CREATE TABLE IF NOT EXISTS Users(email varchar unique, password varchar, user_type varchar, totp varchar)")
@@ -202,9 +240,9 @@ def create_initial_db_resources():
     print(cur.fetchall())
 ```
 
-Creates the `Users` table.
+Creates the user.
 
-```
+```python
 def create_user(email, password, user_type, totp):
     cur.execute("INSERT INTO Users(email, password, user_type, totp) values(:email, :password, :user_type, :totp)", {
         'email': email,
@@ -216,9 +254,9 @@ def create_user(email, password, user_type, totp):
     con.commit()
 ```
 
-Creates the user.
+Gets the user by email.
 
-```
+```python
 def get_user(email):
     try:
         cur.execute("SELECT email, password, user_type, totp FROM Users WHERE email = :email", {
@@ -231,8 +269,6 @@ def get_user(email):
         raise e
 ```
 
-Gets the user by email.
-
 ## Implementations
-1. [Main Server](https://github.com/eugencic/utm-cs-labs/blob/main/main.py)
-2. [Database](https://github.com/eugencic/utm-cs-labs/blob/main/Code/Database.py)
+1. [Main Server](https://github.com/eugencic/utm-cs/blob/main/main.py)
+2. [Database](https://github.com/eugencic/utm-cs/blob/main/Code/Database.py)
